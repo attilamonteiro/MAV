@@ -1,18 +1,21 @@
 let suggestedOrder = [];
+let fieldCount = 1;  // Counter to keep track of the number of fields
 
 function addField() {
     const field = document.createElement('div');
-    field.className = 'field';
+    field.className = 'field flex space-x-2';
     field.innerHTML = `
-        <select class="type">
+        <label for="field-${fieldCount}" class="sr-only">Field Type</label>
+        <select id="field-${fieldCount}" class="type p-2 border rounded" title="Field Type">
             <option value="int8">int8</option>
             <option value="int16">int16</option>
             <option value="int32">int32</option>
             <option value="int64">int64</option>
         </select>
-        <button onclick="removeField(this)">Remove</button>
+        <button onclick="removeField(this)" class="p-2 bg-red-500 text-white rounded">Remove</button>
     `;
     document.getElementById('fields').appendChild(field);
+    fieldCount++;
 }
 
 function removeField(button) {
@@ -29,7 +32,7 @@ function calculate() {
 
     let currentAddress = 0;
     let totalPadding = 0;
-
+    
     fields.forEach(field => {
         const type = field.value;
         const size = parseInt(type.replace('int', '')) / 8;
@@ -64,14 +67,16 @@ function calculate() {
     const isInefficient = totalPadding > 0;
     if (isInefficient) {
         efficiencyElement.textContent += ` (Inefficient)`;
+        efficiencyElement.classList.add('inefficient'); // Adiciona classe de estilo para eficiência ineficiente
     } else {
         efficiencyElement.textContent += ` (Efficient)`;
+        efficiencyElement.classList.remove('inefficient'); // Remove a classe de estilo, se necessário
     }
 }
 
 function createByte(type) {
     const byte = document.createElement('div');
-    byte.className = `byte ${type}`;
+    byte.className = `byte border flex items-center justify-center m-0.5 ${type}`;
     byte.textContent = ' ';
     return byte;
 }
@@ -79,19 +84,22 @@ function createByte(type) {
 function applySuggestedOrder() {
     const fieldsContainer = document.getElementById('fields');
     fieldsContainer.innerHTML = '';
+    fieldCount = 0;  // Reset the counter
 
     suggestedOrder.forEach(type => {
         const field = document.createElement('div');
-        field.className = 'field';
+        field.className = 'field flex space-x-2';
         field.innerHTML = `
-            <select class="type">
+            <label for="field-${fieldCount}" class="sr-only">Field Type</label>
+            <select id="field-${fieldCount}" class="type p-2 border rounded" title="Field Type">
                 <option value="int8" ${type === 'int8' ? 'selected' : ''}>int8</option>
                 <option value="int16" ${type === 'int16' ? 'selected' : ''}>int16</option>
                 <option value="int32" ${type === 'int32' ? 'selected' : ''}>int32</option>
                 <option value="int64" ${type === 'int64' ? 'selected' : ''}>int64</option>
             </select>
-            <button onclick="removeField(this)">Remove</button>
+            <button onclick="removeField(this)" class="p-2 bg-red-500 text-white rounded">Remove</button>
         `;
         fieldsContainer.appendChild(field);
+        fieldCount++;
     });
 }

@@ -4,35 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Alignment Visualizer</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .byte { width: 20px; height: 20px; }
+        .int8 { background-color: #ff9999; }
+        .int16 { background-color: #99ccff; }
+        .int32 { background-color: #99ff99; }
+        .int64 { background-color: #ffcc99; }
+        .padding { background-color: #cccccc; }
+        .inefficient { color: #ff0000; } /* Nova classe para eficiência ineficiente */
+    </style>
 </head>
-<body>
-    <h1>Memory Alignment Visualizer</h1>
-    <div id="structForm">
-        <h2>Define Struct</h2>
-        <div id="fields">
-            <div class="field">
-                <select class="type">
-                    <option value="int8">int8</option>
-                    <option value="int16">int16</option>
-                    <option value="int32">int32</option>
-                    <option value="int64">int64</option>
-                </select>
-                <button onclick="removeField(this)">Remove</button>
+<body class="p-6">
+    <h1 class="text-2xl font-bold mb-4">Memory Alignment Visualizer</h1>
+
+    <div class="grid grid-cols-2 gap-4 mb-6">
+        <!-- Define Struct Card -->
+        <div class="p-4 border rounded-lg col-span-2 md:col-span-1">
+            <h2 class="text-xl font-semibold mb-2">Define Struct</h2>
+            <div id="structForm">
+                <div id="fields" class="space-y-4 grid grid-cols-4 gap-2">
+                    <!-- Initial Field -->
+                    <div class="field flex space-x-2 items-center">
+                        <label for="field-0" class="sr-only">Field Type</label>
+                        <select id="field-0" class="type p-2 border rounded" title="Field Type">
+                            <option value="int8">int8</option>
+                            <option value="int16">int16</option>
+                            <option value="int32">int32</option>
+                            <option value="int64">int64</option>
+                        </select>
+                        <button onclick="removeField(this)" class="p-2 bg-red-500 text-white rounded">Remove</button>
+                    </div>
+                </div>
+                <button onclick="addField()" class="mt-2 p-2 bg-blue-500 text-white rounded">Add Field</button>
+                <button onclick="calculate()" class="mt-2 p-2 bg-green-500 text-white rounded">Calculate</button>
             </div>
         </div>
-        <button onclick="addField()">Add Field</button>
-        <button onclick="calculate()">Calculate</button>
+
+        <!-- Memory Layout Card -->
+        <div class="p-4 border rounded-lg col-span-2 md:col-span-1">
+            <h2 class="text-xl font-semibold mb-2">Memory Layout</h2>
+            <div id="memoryLayout" class="flex flex-wrap mb-4"></div>
+        </div>
+
+        <!-- Struct Size Card -->
+        <div class="p-4 border rounded-lg col-span-2 md:col-span-1">
+            <h2 class="text-xl font-semibold mb-2">Struct Size</h2>
+            <div id="structSize" class="font-bold mb-4"></div>
+        </div>
+
+        <!-- Efficiency Card -->
+        <div class="p-4 border rounded-lg col-span-2 md:col-span-1">
+            <h2 class="text-xl font-semibold mb-2">Efficiency</h2>
+            <div id="efficiency" class="font-bold mb-4"></div>
+        </div>
+
+        <!-- Suggested Order Card -->
+        <div class="p-4 border rounded-lg col-span-2 md:col-span-1">
+            <h2 class="text-xl font-semibold mb-2">Suggested Order</h2>
+            <div id="suggestedOrder" class="font-bold mb-2"></div>
+            <button id="applySuggestedOrder" onclick="applySuggestedOrder()" class="mt-2 p-2 bg-purple-500 text-white rounded">Apply Suggested Order</button>
+        </div>
     </div>
-    <h2>Memory Layout</h2>
-    <div id="memoryLayout"></div>
-    <h2>Struct Size</h2>
-    <div id="structSize"></div>
-    <h2>Efficiency</h2>
-    <div id="efficiency"></div>
-    <h2>Suggested Order</h2>
-    <div id="suggestedOrder"></div>
-    <button id="applySuggestedOrder" onclick="applySuggestedOrder()">Apply Suggested Order</button>
+
     <script src="script.js"></script>
 </body>
 </html>
