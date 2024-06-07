@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Alignment Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Memory Alignment Visualizer</h1>
+    <div id="structForm">
+        <h2>Define Struct</h2>
+        <div id="fields">
+            <div class="field">
+                <select class="type">
+                    <option value="int8">int8</option>
+                    <option value="int16">int16</option>
+                    <option value="int32">int32</option>
+                    <option value="int64">int64</option>
+                </select>
+                <button onclick="removeField(this)">Remove</button>
+            </div>
+        </div>
+        <button onclick="addField()">Add Field</button>
+        <button onclick="calculate()">Calculate</button>
+    </div>
+    <h2>Memory Layout</h2>
+    <div id="memoryLayout"></div>
+    <h2>Struct Size</h2>
+    <div id="structSize"></div>
+    <h2>Efficiency</h2>
+    <div id="efficiency"></div>
+    <h2>Suggested Order</h2>
+    <div id="suggestedOrder"></div>
+    <button id="applySuggestedOrder" onclick="applySuggestedOrder()">Apply Suggested Order</button>
+    <script src="script.js"></script>
+</body>
+</html>
